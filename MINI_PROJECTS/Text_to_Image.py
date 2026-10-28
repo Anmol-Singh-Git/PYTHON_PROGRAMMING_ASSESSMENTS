@@ -1,17 +1,9 @@
-import torch
-from diffusers import StableDiffusionPipeline
+from PIL import Image, ImageDraw
 
-pipe = StableDiffusionPipeline.from_pretrained(
-    "stable-diffusion-v1-5/stable-diffusion-v1-5",
-    torch_dtype=torch.float32
-)
+img = Image.new("RGB", (500, 200), "white")
 
-pipe = pipe.to("cpu")
+draw = ImageDraw.Draw(img)
+draw.text((150, 80), "Hello World!", fill="black")
 
-prompt = "A beautiful house surrounded by green trees"
-
-image = pipe(prompt).images[0]
-
-image.save("generated_image.png")
-
-print("Image generated successfully!")
+img.save("output.png")
+img.show()
