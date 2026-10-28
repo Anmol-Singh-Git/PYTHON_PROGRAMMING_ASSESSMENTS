@@ -1,11 +1,17 @@
-from PIL import Image
-import pytesseract
+import torch
+from diffusers import StableDiffusionPipeline
 
-# Open image
-img = Image.open("image.png")
+pipe = StableDiffusionPipeline.from_pretrained(
+    "stable-diffusion-v1-5/stable-diffusion-v1-5",
+    torch_dtype=torch.float32
+)
 
-# Extract text
-text = pytesseract.image_to_string(img)
+pipe = pipe.to("cpu")
 
-# Print text
-print(text)
+prompt = "A beautiful house surrounded by green trees"
+
+image = pipe(prompt).images[0]
+
+image.save("generated_image.png")
+
+print("Image generated successfully!")
